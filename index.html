@@ -379,8 +379,8 @@
       <h1>A little something for you</h1>
       <p class="eyebrow">Enter the password to open it</p>
 
-      <input type="text" id="pwInput" placeholder="DD/MM/YYYY" autocomplete="off" inputmode="numeric" />
-      <div class="format-hint">format: DD/MM/YYYY</div>
+      <input type="text" id="pwInput" placeholder="DD-MM-YYYY" autocomplete="off" inputmode="numeric" />
+      <div class="format-hint">format: DD-MM-YYYY</div>
       <div id="errMsg"></div>
       <button id="unlockBtn">Unlock</button>
 
@@ -590,7 +590,7 @@ Migatha antha… nee ishtam. ❤️
   </div>
 
 <script>
-  const CORRECT_PASSWORD = "20/08/2006";
+  const CORRECT_PASSWORD = "20-08-2006";
 
   const pwInput = document.getElementById('pwInput');
   const unlockBtn = document.getElementById('unlockBtn');
@@ -612,7 +612,7 @@ Migatha antha… nee ishtam. ❤️
     if(val === CORRECT_PASSWORD){
       unlock();
     } else {
-      errMsg.textContent = "That's not quite right — try the hint above.";
+      errMsg.textContent = "That's not quite right — try the hint below.";
       pwInput.classList.remove('shake');
       void pwInput.offsetWidth;
       pwInput.classList.add('shake');
