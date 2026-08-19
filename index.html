@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Hasini</title>
+
+<!--
+  ============================================================
+  HOW TO CUSTOMIZE THIS PAGE — read this before sending it!
+  ============================================================
+  1) SONG: find the line that says  <source src="YOUR_SONG_FILE_HERE.mp3" ...>
+     Replace YOUR_SONG_FILE_HERE.mp3 with a link to your song, OR put an mp3
+     file in the same folder as this html file and just write its filename.
+
+  2) PHOTOS: search for "REPLACE_PHOTO" — there are photo frames in the
+     gallery section. Replace each src="REPLACE_PHOTO_1.jpg" etc. with the
+     path/link to your own photos of you two.
+
+  3) GOOGLE DRIVE LINK: search for "REPLACE_DRIVE_LINK" and put your
+     Google Drive share link there. That becomes the "Our Memories" button.
+
+  4) LOVE LETTER TEXT: search for "REPLACE_LETTER_TEXT" and write your own
+     message to her — replace the placeholder paragraph.
+
+  5) PASSWORD / HINT are already set as you asked:
+     Hint: Naa Bharyamani Puttinaroju
+     Password: 20/08/2006
+
+  6) VISIT TRACKING (who opened it, when, how many times): search for
+     REPLACE_TRACKING_URL. Follow the setup steps I gave you alongside
+     this file to create a free Google Sheet + Apps Script link, then
+     paste that link in place of REPLACE_TRACKING_URL. Every time the
+     site is unlocked, it logs the date/time, approximate location,
+     and device to that sheet — no setup, no cost.
+  ============================================================
+-->
+
+<style>
+  :root{
+    --midnight-1: #2a0a10;
+    --midnight-2: #4a1018;
+    --midnight-3: #6e1620;
+    --gold: #f2b705;
+    --gold-soft: #ffd873;
+    --rose: #ff4d5e;
+    --rose-deep: #c81e3a;
+    --cream: #fff3e6;
+    --muted: #e8b9b0;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{
+    margin:0; padding:0;
+    background: var(--midnight-1);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  @font-face{ /* fallback-safe, uses Google Fonts if reachable */ }
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Mulish:wght@300;400;600&display=swap');
+
+  h1,h2,h3, .display{
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .utility{
+    font-family: 'Mulish', sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  a { color: var(--gold-soft); }
+
+  /* ---------------- PASSWORD SCREEN ---------------- */
+  #passwordScreen{
+    position: fixed; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(1200px 700px at 50% 0%, var(--midnight-3), var(--midnight-1) 60%);
+    z-index: 999;
+    padding: 24px;
+  }
+  #passwordScreen::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(1px 1px at 10% 20%, #fff 40%, transparent 41%),
+      radial-gradient(1px 1px at 80% 30%, #fff 40%, transparent 41%),
+      radial-gradient(1.5px 1.5px at 60% 70%, #fff 40%, transparent 41%),
+      radial-gradient(1px 1px at 25% 80%, #fff 40%, transparent 41%),
+      radial-gradient(1.5px 1.5px at 90% 85%, #fff 40%, transparent 41%),
+      radial-gradient(1px 1px at 45% 45%, #fff 40%, transparent 41%),
+      radial-gradient(1px 1px at 15% 60%, #fff 40%, transparent 41%),
+      radial-gradient(1.5px 1.5px at 70% 10%, #fff 40%, transparent 41%);
+    opacity: 0.35;
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{ from{ opacity:.2; } to{ opacity:.55; } }
+
+  .lock-card{
+    position:relative;
+    width: min(420px, 100%);
+    padding: 46px 34px 38px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(28,34,71,0.7), rgba(7,9,18,0.85));
+    border: 1px solid rgba(231,194,125,0.25);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+    text-align: center;
+  }
+  .lock-mark{
+    width:52px; height:52px; margin: 0 auto 18px;
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    border: 1px solid rgba(231,194,125,0.5);
+    color: var(--gold);
+    font-size: 22px;
+  }
+  .lock-card h1{
+    font-size: 1.7rem; font-weight:600; margin: 0 0 6px;
+    color: var(--gold-soft);
+    letter-spacing: 0.02em;
+  }
+  .lock-card p.eyebrow{
+    margin: 0 0 22px; font-size: 0.72rem; color: var(--muted);
+  }
+  #pwInput{
+    width:100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(247,239,225,0.25);
+    background: rgba(255,255,255,0.04);
+    color: var(--cream);
+    font-family: 'Mulish', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    text-align:center;
+    letter-spacing: 0.04em;
+  }
+  #pwInput:focus{ border-color: var(--gold); box-shadow: 0 0 0 3px rgba(231,194,125,0.15); }
+  #pwInput.shake{ animation: shake 0.5s; border-color: var(--rose); }
+  @keyframes shake{
+    10%,90%{ transform: translateX(-1px); }
+    20%,80%{ transform: translateX(2px); }
+    30%,50%,70%{ transform: translateX(-5px); }
+    40%,60%{ transform: translateX(5px); }
+  }
+
+  #unlockBtn{
+    margin-top: 16px;
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--gold);
+    background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+    color: #241a05;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  #unlockBtn:hover{ transform: translateY(-1px); box-shadow: 0 8px 22px rgba(231,194,125,0.25); }
+  #unlockBtn:active{ transform: translateY(0); }
+
+  #hintToggle{
+    display:inline-block; margin-top: 18px;
+    background:none; border:none; color: var(--muted);
+    font-family:'Mulish', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor:pointer; text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  #hintText{
+    margin-top: 10px; font-size: 0.95rem; color: var(--rose);
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    display:none;
+  }
+  #hintText.show{ display:block; }
+  #errMsg{
+    min-height: 18px; margin-top: 10px; font-size: 0.75rem; color: #ffb4a8;
+    font-family: 'Mulish', sans-serif;
+  }
+  .format-hint{
+    margin-top: 8px; font-size: 0.66rem; color: var(--muted);
+    font-family:'Mulish', sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .corner-rose{
+    position:absolute; width: 62px; height:62px; opacity:0.85; pointer-events:none;
+  }
+  .corner-rose.tl{ top:-14px; left:-14px; transform: rotate(-20deg); }
+  .corner-rose.br{ bottom:-14px; right:-14px; transform: rotate(160deg); }
+
+  /* ---------------- MAIN SITE ---------------- */
+  #mainSite{ display:none; position:relative; }
+
+  #revealOverlay{
+    position: fixed; inset:0; background: #000;
+    z-index: 900; opacity:1; pointer-events:none;
+    transition: opacity 3.2s ease;
+  }
+  #revealOverlay.fade{ opacity:0; }
+
+  #fireworksCanvas{
+    position: fixed; inset:0; width:100%; height:100%;
+    z-index: 5; pointer-events:none;
+  }
+
+  .hearts-bg{
+    position: fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+  }
+  .heart{
+    position:absolute; bottom:-40px; opacity:0.5; color: var(--rose);
+    animation: floatUp linear infinite;
+    font-size: 18px;
+  }
+  @keyframes floatUp{
+    0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10%{ opacity:0.55; }
+    90%{ opacity:0.4; }
+    100%{ transform: translateY(-110vh) translateX(20px) rotate(30deg); opacity:0; }
+  }
+
+  section{
+    position: relative; z-index: 10;
+    padding: 120px 24px;
+    max-width: 980px; margin: 0 auto;
+  }
+
+  /* ---- HERO ---- */
+  #hero{
+    min-height: 100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding-top: 60px; padding-bottom: 60px;
+    max-width: 100%;
+  }
+  .eyebrow-line{
+    font-size: 0.78rem; letter-spacing: 0.35em; color: var(--gold);
+    margin-bottom: 22px; opacity:0; transform: translateY(10px);
+  }
+  #heroTitle{
+    font-size: clamp(2.4rem, 7vw, 5.2rem);
+    font-weight: 700; line-height: 1.05; margin: 0;
+    background: linear-gradient(180deg, var(--gold-soft), var(--rose) 120%);
+    -webkit-background-clip: text; background-clip:text; color: transparent;
+    opacity:0; transform: translateY(24px) scale(0.98);
+  }
+  #heroSub{
+    margin-top: 26px; font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    color: var(--muted); font-style: italic;
+    opacity:0; transform: translateY(14px);
+  }
+  .reveal-anim .eyebrow-line{ animation: riseIn 1s ease forwards 0.2s; }
+  .reveal-anim #heroTitle{ animation: riseIn 1.4s ease forwards 0.5s; }
+  .reveal-anim #heroSub{ animation: riseIn 1.2s ease forwards 1.3s; }
+  @keyframes riseIn{ to{ opacity:1; transform: translateY(0) scale(1); } }
+
+  .couple-wrap{
+    width: min(280px, 70vw); margin: 34px auto 0;
+    opacity: 0; transform: translateY(16px);
+  }
+  .reveal-anim .couple-wrap{ animation: riseIn 1.3s ease forwards 1.7s; }
+  #coupleSvg{ width:100%; height:auto; overflow: visible; }
+  .c-her{ transform-origin: 140px 200px; animation: swayHer 3.4s ease-in-out infinite; }
+  .c-him{ transform-origin: 204px 200px; animation: swayHim 3.4s ease-in-out infinite 0.15s; }
+  .c-heart{ transform-origin: 160px 85px; animation: heartPulse 1.6s ease-in-out infinite; }
+  @keyframes swayHer{ 0%,100%{ transform: rotate(-2.5deg);} 50%{ transform: rotate(2deg);} }
+  @keyframes swayHim{ 0%,100%{ transform: rotate(2.5deg);} 50%{ transform: rotate(-2deg);} }
+  @keyframes heartPulse{ 0%,100%{ transform: scale(1) translateY(0); opacity:0.9; } 50%{ transform: scale(1.18) translateY(-4px); opacity:1; } }
+
+  .petal{
+    position:absolute; bottom:-40px; opacity:0.6;
+    animation: petalFall linear infinite;
+  }
+  @keyframes petalFall{
+    0%{ transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10%{ opacity:0.7; }
+    90%{ opacity:0.5; }
+    100%{ transform: translateY(-112vh) translateX(-26px) rotate(200deg); opacity:0; }
+  }
+
+  .scroll-cue{
+    margin-top: 60px; font-size: 0.7rem; letter-spacing: 0.25em;
+    color: var(--muted); opacity:0; animation: riseIn 1s ease forwards 2.2s;
+  }
+  .scroll-cue span{ display:block; margin-top:8px; animation: bob 2s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(6px);} }
+
+  /* ---- SECTION HEADERS ---- */
+  .flourish-rose{
+    width: 38px; height: 38px; display:block; margin: 0 auto 14px;
+  }
+  .sec-eyebrow{
+    font-size: 0.7rem; color: var(--gold); margin-bottom: 14px;
+  }
+  .sec-title{
+    font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 40px;
+    color: var(--cream);
+  }
+
+  /* ---- LETTER ---- */
+  #letter{
+    text-align:center;
+  }
+  .letter-body{
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+    line-height: 1.85; color: var(--cream); opacity: 0.92;
+    max-width: 720px; margin: 0 auto;
+  }
+  .signature{
+    margin-top: 34px; font-family:'Playfair Display', serif;
+    font-style: italic; color: var(--gold-soft); font-size: 1.3rem;
+  }
+
+  /* ---- GALLERY ---- */
+  #gallery .sec-title{ text-align:center; }
+  .gallery-eyebrow-wrap{ text-align:center; }
+  .grid{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    margin-top: 10px;
+  }
+  @media(min-width: 720px){ .grid{ grid-template-columns: repeat(4, 1fr); } }
+  .frame{
+    aspect-ratio: 3/4; border-radius: 14px; overflow:hidden;
+    border: 1px solid rgba(231,194,125,0.3);
+    background: linear-gradient(160deg, var(--midnight-3), var(--midnight-1));
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .frame img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .frame .placeholder-label{
+    font-family:'Mulish',sans-serif; font-size:0.65rem; letter-spacing:0.1em;
+    color: var(--muted); text-transform:uppercase; text-align:center; padding: 10px;
+  }
+
+  /* ---- DRIVE / MEMORIES ---- */
+  #memories{ text-align:center; }
+  .drive-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    margin-top: 8px; padding: 16px 34px; border-radius: 40px;
+    border: 1px solid var(--gold);
+    background: rgba(231,194,125,0.08);
+    color: var(--gold-soft); text-decoration:none;
+    font-family:'Mulish', sans-serif; letter-spacing:0.1em; text-transform:uppercase;
+    font-size: 0.78rem; transition: all .25s ease;
+  }
+  .drive-btn:hover{ background: var(--gold); color:#241a05; transform: translateY(-2px); }
+
+  footer{
+    position:relative; z-index:10;
+    text-align:center; padding: 60px 24px 80px; color: var(--muted);
+    font-family:'Mulish', sans-serif; font-size: 0.8rem; letter-spacing: 0.05em;
+  }
+  footer .heart-mark{ color: var(--rose); }
+
+  @media (prefers-reduced-motion: reduce){
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ================= PASSWORD SCREEN ================= -->
+  <div id="passwordScreen">
+    <div class="lock-card">
+      <svg class="corner-rose tl" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <path d="M50 55 C30 55 15 40 15 25 C15 12 25 5 35 10 C40 3 50 3 53 12 C63 5 75 12 73 25 C71 40 65 55 50 55 Z" fill="#c81e3a"/>
+          <path d="M50 50 C38 50 30 40 32 30 C33 22 42 18 48 24 C52 18 62 20 62 30 C62 42 58 50 50 50 Z" fill="#ff4d5e"/>
+          <circle cx="48" cy="34" r="8" fill="#ffd873" opacity="0.85"/>
+          <path d="M50 55 L46 90" stroke="#3d7a3d" stroke-width="3" fill="none"/>
+          <path d="M46 70 L32 78" stroke="#3d7a3d" stroke-width="2.5" fill="none"/>
+          <ellipse cx="30" cy="76" rx="7" ry="4" fill="#4f9a4f" transform="rotate(-25 30 76)"/>
+        </g>
+      </svg>
+      <div class="lock-mark">&#9825;</div>
+      <h1>A little something for you</h1>
+      <p class="eyebrow">Enter the password to open it</p>
+
+      <input type="text" id="pwInput" placeholder="DD/MM/YYYY" autocomplete="off" inputmode="numeric" />
+      <div class="format-hint">format: DD/MM/YYYY</div>
+      <div id="errMsg"></div>
+      <button id="unlockBtn">Unlock</button>
+
+      <button id="hintToggle">Need a hint?</button>
+      <div id="hintText">"Naa Bharyamani Puttinaroju"</div>
+
+      <svg class="corner-rose br" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <path d="M50 55 C30 55 15 40 15 25 C15 12 25 5 35 10 C40 3 50 3 53 12 C63 5 75 12 73 25 C71 40 65 55 50 55 Z" fill="#c81e3a"/>
+          <path d="M50 50 C38 50 30 40 32 30 C33 22 42 18 48 24 C52 18 62 20 62 30 C62 42 58 50 50 50 Z" fill="#ff4d5e"/>
+          <circle cx="48" cy="34" r="8" fill="#ffd873" opacity="0.85"/>
+          <path d="M50 55 L46 90" stroke="#3d7a3d" stroke-width="3" fill="none"/>
+          <path d="M46 70 L32 78" stroke="#3d7a3d" stroke-width="2.5" fill="none"/>
+          <ellipse cx="30" cy="76" rx="7" ry="4" fill="#4f9a4f" transform="rotate(-25 30 76)"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ================= MAIN SITE ================= -->
+  <div id="mainSite">
+    <div id="revealOverlay"></div>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <audio id="bgm" loop preload="auto">
+      <!-- REPLACE the line below with your own song file or link -->
+      <source src="Tum Prem Ho Tum Preet Ho.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ---- HERO ---- -->
+    <section id="hero">
+      <div class="eyebrow-line utility">20 &bull; 08</div>
+      <h1 id="heroTitle">Happy Birthday<br>Hasini Garu</h1>
+      <p id="heroSub">every year with you is my favorite one yet.</p>
+
+      <div class="couple-wrap">
+        <svg id="coupleSvg" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="160" cy="205" rx="130" ry="10" fill="#000" opacity="0.25"/>
+
+          <!-- floating heart -->
+          <g class="c-heart">
+            <path d="M160 70 C155 60 138 60 138 76 C138 90 160 105 160 105 C160 105 182 90 182 76 C182 60 165 60 160 70 Z" fill="#ff4d5e"/>
+          </g>
+
+          <!-- her -->
+          <g class="c-her">
+            <path d="M105 200 C100 150 108 120 130 115 L150 115 C170 120 178 150 173 200 Z" fill="#c81e3a"/>
+            <path d="M118 150 C112 165 112 185 118 200" stroke="#ffd873" stroke-width="3" fill="none" opacity="0.7"/>
+            <circle cx="140" cy="95" r="26" fill="#3a2416"/>
+            <circle cx="140" cy="98" r="21" fill="#f4c9a6"/>
+            <path d="M116 92 C114 75 128 62 140 62 C154 62 166 75 164 92 C158 84 150 82 140 82 C130 82 122 84 116 92 Z" fill="#3a2416"/>
+            <circle cx="132" cy="99" r="2.4" fill="#3a2416"/>
+            <circle cx="148" cy="99" r="2.4" fill="#3a2416"/>
+            <path d="M133 107 Q140 112 147 107" stroke="#7a3b2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="126" cy="104" r="4" fill="#ff9e9e" opacity="0.6"/>
+            <circle cx="154" cy="104" r="4" fill="#ff9e9e" opacity="0.6"/>
+            <path d="M152 82 L166 70" stroke="#ffd873" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="167" cy="68" r="5" fill="#ffd873"/>
+          </g>
+
+          <!-- him -->
+          <g class="c-him">
+            <path d="M175 200 C172 155 178 122 195 117 L213 117 C230 122 236 155 233 200 Z" fill="#8a5a12"/>
+            <rect x="192" y="150" width="18" height="50" fill="#f2b705" opacity="0.55"/>
+            <circle cx="204" cy="95" r="24" fill="#f4c9a6"/>
+            <path d="M182 90 C180 72 192 58 204 58 C217 58 228 72 226 90 C222 78 214 74 204 74 C194 74 186 78 182 90 Z" fill="#241608"/>
+            <circle cx="197" cy="98" r="2.4" fill="#3a2416"/>
+            <circle cx="212" cy="98" r="2.4" fill="#3a2416"/>
+            <path d="M198 106 Q204 110 211 106" stroke="#7a3b2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M188 80 L173 69" stroke="#f4c9a6" stroke-width="4" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="scroll-cue">SCROLL DOWN<span>&#8595;</span></div>
+    </section>
+
+    <!-- ---- LETTER ---- -->
+    <section id="letter">
+      <svg class="flourish-rose" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 55 C30 55 15 40 15 25 C15 12 25 5 35 10 C40 3 50 3 53 12 C63 5 75 12 73 25 C71 40 65 55 50 55 Z" fill="#c81e3a"/>
+        <path d="M50 50 C38 50 30 40 32 30 C33 22 42 18 48 24 C52 18 62 20 62 30 C62 42 58 50 50 50 Z" fill="#ff4d5e"/>
+        <circle cx="48" cy="34" r="8" fill="#ffd873" opacity="0.85"/>
+      </svg>
+      <div class="sec-eyebrow utility">For you</div>
+      <h2 class="sec-title">A few words from me</h2>
+      <p class="letter-body">
+        <!-- REPLACE_LETTER_TEXT: write your own message to her below -->
+Hasini Garu,
+
+Nijanga cheppalante… ee message rayadaniki kuda chala alochinchanu. Endukante ippudu nenu cheppedi naa gurinchi kaadu, nee gurinchi undali.
+
+Nenu chesina prathi daniki, naa over-caring valla, naa maatala valla, naa messages valla, teliyakunda aina nee mental peace disturb ayyi unte… I am truly sorry. Ninnu baadha pettalani, pressure cheyyalani, nee life lo burden avvalani nenu eppudu anukoledu. Kaani naa intention kanna nee experience important. Nuvvu ibbandi paddav ante, daniki nenu nijanga kshaminchamani adugutunnanu.
+
+Anduke ippudu nenu nee decision ni respect chesthanu.
+
+Ika nenu neeku messages cheyyanu. Reels pampanu. Audios, videos, calls… emi cheyyanu. Nee space ni disturb cheyyanu. Nuvvu nannu gurinchi alochinchakunda, nee life ni nee istam vachinattu peaceful ga continue cheyyagalige space ni nenu isthanu.
+
+Kaani oka vishayam matram abaddham cheppalenu.
+
+Nenu ninnu marchipoyanu ani cheppalenu.
+Naa prema poindani cheppalenu.
+Ninnu vadilesanu ani kuda cheppalenu.
+
+Nenu ikkade untanu ani cheppadam kuda ninnu wait cheyyamani pressure cheyyadaniki kaadu. Naa hrudayam lo unna nijanni dachukolekapovadam anthe.
+
+Mana story ni nenu ela marchipogalanu?
+
+Oka yellow dress lo ninnu chusi naa manasulo modalaina aa feeling…
+Nenu rasina aa letter…
+Mundhu nuvvu “interest ledu” ani cheppina aa rojulu…
+Tarvatha manam okariki okaram daggaraina rojulu…
+Mana madhya jarigina chinna chinna conversations…
+Nuvvu “ninnu vadili vellanu” ani cheppina aa maata… adi aa samayam lo nijam kaakapoyina, naa jeevithamlo adi nijamaina oka gnapakam.
+
+Manam kalisi Marvel movies chudali ani anukunna aa chinna dream kuda naaku chala pedda memory.
+
+Ninnu preminchadam lo nenu konni sarlu haddulu daatesi undochu. Ninnu ekkuvaga care cheyyalani try chesthu, ade care ninnu suffocate chesundachu. Ippudu adi ardham chesukuntunnanu.
+
+Anduke ee sari naa prema ni prove cheyyadaniki ninnu chase cheyyanu.
+
+Ninnu preminchadam ante nee daggaraki raavadam matrame kaadu…
+Nee manasuki avasaramaina dooram kuda ivvadam ani ippudu nerchukuntunnanu.
+
+Nuvvu eppudaina venakki tirigi chusthe, nenu ninnu force chesina vyakthiga kaakunda, tappulu chesina… kaani nijanga ninnu preminchina oka manishiga gurthundali ani korukuntunnanu.
+
+Nee life lo nenu undala vaddha anedi nee decision.
+Nuvvu malli naa daggaraki raavala vaddha anedi kuda nee decision.
+
+Nenu aa decision ni respect chesthanu.
+
+Kaani naa hrudayam matram oka chinna nammakanni dachukuntundi—
+
+Konni bandhalaki dooram anedi mugimpu kaadu…
+konchem samayam.
+Konni premalaki maatladakapovadam marupu kaadu…
+oka nishabdha eduruchoopu.
+
+Nuvvu eppudaina nijanga naa daggaraki tirigi raavalani anukunte, nenu emi adaganu—“enduku vachav?” ani kuda adaganu.
+
+Nuvvu vachav ante chaalu.
+
+Appudu manam mana kathani malli modalu pettalsina avasaram ledu.
+Manam ekkada aapesamo akkadinunchi oka sari nijanga maatladukundam.
+
+Until then…
+
+I will respect your silence.
+I will respect your space.
+I will respect your decision.
+
+And most importantly, I will never intentionally disturb your peace again.
+
+Ninnu vadileyadam naa chethilo undochu…
+kaani ninnu preminchadam naa manasulo jarigina vishayam.
+
+Adi nenu evarini oppinchadaniki kaadu, neepai hakku kosam kaadu.
+
+Adi just… naa nijam.
+
+Take care, Hasini.
+
+Nuvvu santhoshanga undali.
+Nuvvu peaceful ga undali.
+
+Naa jeevithamlo nuvvu entha importanto, adi nee daggaraki cheri cheppakunda kuda nenu mosukellagalanu.
+
+I am sorry.
+I love you.
+And now, I will give you the silence you asked for.
+
+Migatha antha… nee ishtam. ❤️        
+      </p>
+      <p class="signature">— Yours, always</p>
+    </section>
+
+    <!-- ---- GALLERY ---- -->
+    <section id="gallery">
+      <div class="gallery-eyebrow-wrap">
+        <div class="sec-eyebrow utility">Us, through the years</div>
+        <h2 class="sec-title">A few of my favorite moments</h2>
+      </div>
+      <div class="grid">
+        <div class="frame"><img src="REPLACE_PHOTO_1.jpg" alt="Memory 1" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-label').style.display='block';"><span class="placeholder-label">No Memories Yet</span></div>
+        <div class="frame"><img src="REPLACE_PHOTO_2.jpg" alt="Memory 2" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-label').style.display='block';"><span class="placeholder-label">No Memories Yet</span></div>
+        <div class="frame"><img src="REPLACE_PHOTO_3.jpg" alt="Memory 3" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-label').style.display='block';"><span class="placeholder-label">No Memories Yet</span></div>
+        <div class="frame"><img src="REPLACE_PHOTO_4.jpg" alt="Memory 4" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder-label').style.display='block';"><span class="placeholder-label">No Memories Yet</span></div>
+      </div>
+    </section>
+
+    <!-- ---- GOOGLE DRIVE / MEMORIES LINK ---- -->
+    <section id="memories">
+      <svg class="flourish-rose" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 55 C30 55 15 40 15 25 C15 12 25 5 35 10 C40 3 50 3 53 12 C63 5 75 12 73 25 C71 40 65 55 50 55 Z" fill="#c81e3a"/>
+        <path d="M50 50 C38 50 30 40 32 30 C33 22 42 18 48 24 C52 18 62 20 62 30 C62 42 58 50 50 50 Z" fill="#ff4d5e"/>
+        <circle cx="48" cy="34" r="8" fill="#ffd873" opacity="0.85"/>
+      </svg>
+      <div class="sec-eyebrow utility">There's more</div>
+      <h2 class="sec-title">All our memories, in one place</h2>
+      <a class="drive-btn" href="https://drive.google.com/drive/folders/1xy8cPLwqqLEkAWLkqHAnWF2cn80n4WnU?usp=sharing" target="_blank" rel="noopener">Open our memories &#8594;</a>
+    </section>
+
+    <footer>
+      made with <span class="heart-mark">&#9825;</span> just for Hasini
+    </footer>
+  </div>
+
+<script>
+  const CORRECT_PASSWORD = "20/08/2006";
+
+  const pwInput = document.getElementById('pwInput');
+  const unlockBtn = document.getElementById('unlockBtn');
+  const errMsg = document.getElementById('errMsg');
+  const hintToggle = document.getElementById('hintToggle');
+  const hintText = document.getElementById('hintText');
+  const passwordScreen = document.getElementById('passwordScreen');
+  const mainSite = document.getElementById('mainSite');
+  const revealOverlay = document.getElementById('revealOverlay');
+  const bgm = document.getElementById('bgm');
+  const hero = document.getElementById('hero');
+
+  hintToggle.addEventListener('click', () => {
+    hintText.classList.toggle('show');
+  });
+
+  function tryUnlock(){
+    const val = pwInput.value.trim();
+    if(val === CORRECT_PASSWORD){
+      unlock();
+    } else {
+      errMsg.textContent = "That's not quite right — try the hint above.";
+      pwInput.classList.remove('shake');
+      void pwInput.offsetWidth;
+      pwInput.classList.add('shake');
+    }
+  }
+
+  unlockBtn.addEventListener('click', tryUnlock);
+  pwInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') tryUnlock(); });
+
+  function unlock(){
+    passwordScreen.style.display = 'none';
+    mainSite.style.display = 'block';
+
+    logVisit(); // tracks opens — see TRACKING SETUP note at top of file
+
+    // try to play music right away (this click is a valid user gesture)
+    bgm.volume = 0.85;
+    bgm.play().catch(()=>{ /* autoplay might still be blocked on some browsers */ });
+
+    // darkness -> slow light
+    requestAnimationFrame(() => {
+      setTimeout(() => { revealOverlay.classList.add('fade'); }, 200);
+    });
+
+    // reveal hero text + start fireworks
+    setTimeout(() => {
+      hero.classList.add('reveal-anim');
+      startFireworks();
+    }, 900);
+
+    spawnHearts();
+  }
+
+  // ---------------- VISIT TRACKING ----------------
+  // Every time someone unlocks the site, this sends the date/time,
+  // approximate location (city-level, from IP), device, and screen
+  // size to a Google Sheet you control. See the setup note at the
+  // very top of this file for the 5-minute setup.
+  const TRACKING_URL = "https://script.google.com/macros/s/AKfycbwRTI99cqwmRNXiHif8lcu6R4JjAcOjTgkDBGfYYXjLyZ8vYunyKvUUGtkpfGgqeMDi/exec";
+
+  async function logVisit(){
+    if(!TRACKING_URL || TRACKING_URL === "https://script.google.com/macros/s/AKfycbwRTI99cqwmRNXiHif8lcu6R4JjAcOjTgkDBGfYYXjLyZ8vYunyKvUUGtkpfGgqeMDi/exec") return; // not set up yet
+    let location = "";
+    try{
+      const geoRes = await fetch('https://ipapi.co/json/');
+      const geo = await geoRes.json();
+      location = [geo.city, geo.region, geo.country_name].filter(Boolean).join(', ');
+    }catch(e){ /* geolocation lookup is best-effort */ }
+
+    try{
+      const payload = JSON.stringify({
+        device: navigator.userAgent,
+        language: navigator.language,
+        screen: screen.width + 'x' + screen.height,
+        location: location
+      });
+      fetch(TRACKING_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: payload
+      });
+    }catch(err){ /* tracking should never block the surprise */ }
+  }
+
+  // ---------------- FLOATING HEARTS + ROSE PETALS ----------------
+  function spawnHearts(){
+    const wrap = document.getElementById('heartsBg');
+    const symbols = ['&#10084;','&#9825;'];
+    for(let i=0;i<14;i++){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+      h.style.left = Math.random()*100 + 'vw';
+      h.style.fontSize = (12 + Math.random()*18) + 'px';
+      h.style.animationDuration = (10 + Math.random()*14) + 's';
+      h.style.animationDelay = (Math.random()*12) + 's';
+      wrap.appendChild(h);
+    }
+    const petalColors = ['#ff4d5e','#c81e3a','#ffd873','#f2b705'];
+    for(let i=0;i<14;i++){
+      const p = document.createElement('div');
+      p.className = 'petal';
+      const w = 10 + Math.random()*8, hgt = w*0.7;
+      p.style.width = w + 'px';
+      p.style.height = hgt + 'px';
+      p.style.background = petalColors[Math.floor(Math.random()*petalColors.length)];
+      p.style.borderRadius = '0 100% 0 100%';
+      p.style.left = Math.random()*100 + 'vw';
+      p.style.animationDuration = (9 + Math.random()*13) + 's';
+      p.style.animationDelay = (Math.random()*12) + 's';
+      wrap.appendChild(p);
+    }
+  }
+
+  // ---------------- FIREWORKS ----------------
+  const canvas = document.getElementById('fireworksCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const colors = ['#ff4d5e','#f2b705','#ffd873','#c81e3a','#fff3e6','#ff9e9e'];
+  let particles = [];
+  let rockets = [];
+  let fireworksActive = false;
+  let launchTimer = null;
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+
+  function launchRocket(){
+    const x = rand(W*0.15, W*0.85);
+    const targetY = rand(H*0.15, H*0.45);
+    rockets.push({ x, y:H, targetY, vy: rand(-9.5,-7.5), color: colors[Math.floor(Math.random()*colors.length)] });
+  }
+
+  function explode(x,y,color){
+    const count = 46;
+    for(let i=0;i<count;i++){
+      const angle = (Math.PI*2)*(i/count);
+      const speed = rand(2,6.5);
+      particles.push({
+        x, y,
+        vx: Math.cos(angle)*speed,
+        vy: Math.sin(angle)*speed,
+        alpha: 1,
+        color,
+        life: rand(50,80)
+      });
+    }
+  }
+
+  function tick(){
+    ctx.fillStyle = 'rgba(42,10,16,0.22)';
+    ctx.fillRect(0,0,W,H);
+
+    rockets.forEach((r, i) => {
+      r.y += r.vy;
+      r.vy += 0.05;
+      ctx.beginPath();
+      ctx.arc(r.x, r.y, 2.2, 0, Math.PI*2);
+      ctx.fillStyle = r.color;
+      ctx.fill();
+      if(r.vy >= -1 || r.y <= r.targetY){
+        explode(r.x, r.y, r.color);
+        rockets.splice(i,1);
+      }
+    });
+
+    particles.forEach((p, i) => {
+      p.vy += 0.045; // gravity
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 1;
+      p.alpha = Math.max(p.life/80, 0);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.8, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      if(p.life <= 0) particles.splice(i,1);
+    });
+
+    requestAnimationFrame(tick);
+  }
+
+  function startFireworks(){
+    if(fireworksActive) return;
+    fireworksActive = true;
+    tick();
+
+    // an energetic opening burst
+    let bursts = 0;
+    const burstInterval = setInterval(() => {
+      launchRocket();
+      bursts++;
+      if(bursts >= 3) launchRocket();
+      if(bursts > 9){
+        clearInterval(burstInterval);
+        // settle into an occasional gentle firework in the background
+        launchTimer = setInterval(() => {
+          if(Math.random() < 0.6) launchRocket();
+        }, 3200);
+      }
+    }, 420);
+  }
+</script>
+
+</body>
+</html>
